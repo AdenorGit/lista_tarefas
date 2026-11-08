@@ -1,16 +1,111 @@
-# Ativa o motor de reescrita de URL
+# =====================================================================
+#  .HTACCESS - Regras de reescrita de URL
+#  
+#  Responsável por redirecionar TODAS as requisições "amigáveis" para
+#  o único ponto de entrada da aplicação (Public/index.php).
+#  
+#  Exemplo prático:
+#    URL amigável:  http://192.168.122.18:8000/eventos/editar/5
+#    URL real:      http://192.168.122.18:8000/index.php
+#  
+#  O Router (bramus/router) lê a URL original via $_SERVER['REQUEST_URI']
+#  e despacha para o Controller correto.
+#  
+#  Requisitos:
+#    - Módulo mod_rewrite habilitado no Apache (a2enmod rewrite)
+#    - AllowOverride All no diretório (ou AllowOverride FileInfo)
+#    - Este arquivo deve estar em Public/ (junto do index.php)
+# =====================================================================
+
+
+# === ATIVA O MOTOR DE REESCRITA ======================================
+#  Sem isso, as regras abaixo são ignoradas silenciosamente.
+#  Se o Apache não tiver o mod_rewrite habilitado, TODA regra aqui
+#  falha sem erro visível — o site retorna 404 em todas as rotas.
 RewriteEngine On
 
-# Define a pasta base onde o site está rodando (barra significa a raiz)
+
+# === DEFINE A PASTA BASE =============================================
+#  "/" indica que a aplicação roda na raiz do domínio.
+#  
+#  Exemplos:
+#    - http://192.168.122.18:8000/            → raiz
+#    - http://192.168.122.18:8000/eventos/... → raiz
+#  
+#  Se o projeto estivesse em uma subpasta (ex: http://site.com/app/),
+#  você usaria:
+#    RewriteBase /app/
+#  
+#  No seu caso, com "php -S 0.0.0.0:8000 -t Public" a aplicação está
+#  servida na raiz, então "/" está correto.
 RewriteBase /
 
-# Se a requisição for para um arquivo existente, não faz nada
+
+# === CONDIÇÃO 1: NÃO REESCREVE ARQUIVOS EXISTENTES ===================
+#  Se a requisição corresponde a um ARQUIVO FÍSICO existente em Public/
+#  (ex: /Assets/Css/styles.css, /Assets/Js/home.js, /favicon.ico),
+#  não aplica a reescrita — deixa o Apache (ou o servidor embutido PHP)
+#  servir o arquivo diretamente.
+#  
+#  Sem essa condição, o CSS, JS e imagens seriam servidos pelo index.php
+#  (o que quebraria o site: o Router receberia "/Assets/Css/styles.css"
+#  como se fosse uma rota e retornaria 404).
+#  
+#  "-f" significa "file exists" (é um arquivo).
 RewriteCond %{REQUEST_FILENAME} !-f
 
-# Se a requisição for para uma pasta existente, não faz nada
+
+# === CONDIÇÃO 2: NÃO REESCREVE DIRETÓRIOS EXISTENTES =================
+#  Mesmo raciocínio da condição anterior, mas para DIRETÓRIOS.
+#  
+#  Útil se você tiver uma pasta com index próprio (ex: /admin/ com
+#  seu próprio index.php). O Apache serve o index da pasta ao invés
+#  de passar pela reescrita.
+#  
+#  Para o seu projeto atual, essa condição é "defensiva" — não há
+#  subpastas com index próprio em Public/, mas não custa nada.
+#  
+#  "-d" significa "directory exists" (é um diretório).
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# Redireciona tudo o resto para o index.php mantendo os parâmetros ocultos
-# RewriteRule ^(.*)$ index.php [L,QSA]
-RewriteRule ^(.*)$ index.php [END,QSA]
 
+# === REGRA DE REESCRITA ==============================================
+#  
+#  Sintaxe:
+#    RewriteRule ^(.*)$ index.php [END,QSA]
+#  
+#  Detalhamento:
+#  
+#  ^(.*)$  → Captura QUALQUER URL (do início ao fim).
+#            O "(.*)" é um grupo de captura, que poderia ser usado
+#            com $1 na substituição, mas não é necessário aqui.
+#  
+#  index.php → Destino da reescrita. Todos os requests que passam
+#              pelas condições acima caem aqui.
+#  
+#  [END]   → FLAG CRÍTICA. Diferente de [L] (Last), [END] diz ao
+#            Apache para PARAR COMPLETAMENTE o processamento de
+#            reescrita — inclusive de outras regras em arquivos
+#            .htaccess pais, se houver.
+#            
+#            [L] apenas encerra a reescrita NO ARQUIVO ATUAL. Se
+#            houver um .htaccess no diretório pai com regras, elas
+#            ainda seriam aplicadas (podendo causar loops).
+#            
+#            [END] é mais seguro e mais eficiente. Disponível desde
+#            Apache 2.4+.
+#  
+#  [QSA]   → "Query String Append". Preserva a query string original
+#            na URL reescrita.
+#            
+#            Sem [QSA]:
+#              Request: /eventos/editar/5?ref=email
+#              Reescrita vira: index.php          ← perde ?ref=email
+#            
+#            Com [QSA]:
+#              Request: /eventos/editar/5?ref=email
+#              Reescrita vira: index.php?ref=email  ← preserva
+#            
+#            Essencial para a busca (?q=termo) funcionar!
+#  
+RewriteRule ^(.*)$ index.php [END,QSA]

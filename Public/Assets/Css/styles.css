@@ -1,63 +1,108 @@
-/* ===== Reset básico ===== */
+/* =====================================================================
+   STYLES.CSS
+   
+   Folha de estilos única da aplicação.
+   Organização:
+     1. Reset básico
+     2. Header (navegação, busca, links)
+     3. Conteúdo principal (#divPrincipal)
+     4. Tabela de eventos
+     5. Formulários (login, cadastro, evento)
+     6. Mensagens de feedback (#msg)
+     7. Footer
+     8. Ajustes extras (nome do usuário, botão concluir, select)
+     9. Responsividade
+   
+   Paleta de cores:
+     - Primária:    #2563eb (azul)
+     - Fundo claro: #f4f6f8
+     - Header:      #1f2937 (cinza escuro)
+     - Texto:       #1f2937
+     - Sucesso:     #065f46 / #d1fae5
+     - Erro:        #991b1b / #fef2f2
+   ===================================================================== */
+
+
+/* ===== Reset básico =================================================
+   Garante consistência entre navegadores, removendo margens/paddings
+   padrão e padronizando o cálculo de largura dos elementos.
+   ===================================================================== */
+
 *, *::before, *::after { box-sizing: border-box; }
+/* "border-box" faz com que padding e border sejam contabilizados
+   dentro da largura/altura definida, evitando cálculos imprecisos. */
+
 html, body { margin: 0; padding: 0; }
+
 body {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-    background: #f4f6f8;
-    color: #1f2937;
-    min-height: 100vh;
-    line-height: 1.5;
+    background: #f4f6f8;   /* Fundo cinza claro para contraste com os cards */
+    color: #1f2937;        /* Cor padrão do texto (cinza escuro) */
+    min-height: 100vh;     /* Garante que o body ocupe pelo menos a tela toda */
+    line-height: 1.5;      /* Melhora legibilidade em parágrafos e labels */
 }
-a { color: #2563eb; text-decoration: none; }
-a:hover { text-decoration: underline; }
 
-/* ===== Header ===== */
+a { color: #2563eb; text-decoration: none; } /* Links em azul, sem underline */
+a:hover { text-decoration: underline; }      /* Underline apenas no hover */
+
+
+/* ===== Header ======================================================
+   Barra de navegação escura no topo, com logo, campo de busca e links.
+   ===================================================================== */
+
 header {
-    background: #1f2937;
-    color: #f9fafb;
-    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    background: #1f2937;         /* Cinza escuro */
+    color: #f9fafb;              /* Texto quase branco */
+    box-shadow: 0 2px 6px rgba(0,0,0,.15); /* Sombra sutil abaixo */
 }
+
 header nav {
-    max-width: 1100px;
-    margin: 0 auto;
+    max-width: 1100px;      /* Limita a largura em telas grandes */
+    margin: 0 auto;         /* Centraliza horizontalmente */
     padding: .75rem 1rem;
     display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+    align-items: center;    /* Alinha verticalmente os filhos */
+    gap: 1rem;              /* Espaço entre os blocos (logo | busca | links) */
+    flex-wrap: wrap;        /* Quebra em várias linhas em telas pequenas */
 }
+
 header nav a h3 {
     margin: 0;
     color: #f9fafb;
     font-size: 1.1rem;
     font-weight: 600;
-    white-space: nowrap;
+    white-space: nowrap;    /* Impede quebra do título em várias linhas */
 }
+
+/* --- Formulário de pesquisa no header --- */
 header nav form {
     display: flex;
     gap: .5rem;
-    flex: 1 1 220px;
-    min-width: 0;
+    flex: 1 1 220px;        /* Cresce para preencher o espaço disponível */
+    min-width: 0;           /* Permite que o input encolha se necessário */
 }
+
 header nav form input[type="search"] {
-    flex: 1;
+    flex: 1;                /* Ocupa todo o espaço disponível no form */
     padding: .45rem .7rem;
     border-radius: 6px;
     border: 1px solid #374151;
-    background: #111827;
+    background: #111827;    /* Fundo escuro dentro do header escuro */
     color: #f9fafb;
 }
 header nav form input[type="search"]::placeholder { color: #9ca3af; }
+
 header nav form button {
     padding: .45rem .9rem;
     border: 0;
     border-radius: 6px;
-    background: #2563eb;
+    background: #2563eb;    /* Azul primário */
     color: #fff;
     cursor: pointer;
 }
-header nav form button:hover { background: #1d4ed8; }
+header nav form button:hover { background: #1d4ed8; } /* Azul mais escuro */
 
+/* --- Lista de links (Cadastrar, Entrar/Sair, Novo Evento) --- */
 header nav ul {
     list-style: none;
     display: flex;
@@ -66,6 +111,7 @@ header nav ul {
     padding: 0;
     flex-wrap: wrap;
 }
+
 header nav ul li a {
     display: inline-block;
     padding: .45rem .8rem;
@@ -74,66 +120,95 @@ header nav ul li a {
     font-size: .92rem;
 }
 header nav ul li a:hover {
-    background: #374151;
+    background: #374151;    /* Realce ao passar o mouse */
     text-decoration: none;
 }
 
-/* ===== Conteúdo principal ===== */
+
+/* ===== Conteúdo principal ==========================================
+   Área central com fundo branco (card), sombra suave e padding generoso.
+   ===================================================================== */
+
 main {
     max-width: 1100px;
-    margin: 1.5rem auto;
-    padding: 0 1rem;
+    margin: 1.5rem auto;    /* Centraliza verticalmente e horizontalmente */
+    padding: 0 1rem;        /* Espaçamento lateral em telas pequenas */
 }
+
 #divPrincipal {
     background: #fff;
     border-radius: 10px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    box-shadow: 0 1px 3px rgba(0,0,0,.08); /* Sombra muito sutil */
     padding: 1.25rem;
 }
+
 #divPrincipal h3 {
     margin-top: 0;
     margin-bottom: 1rem;
     color: #111827;
 }
 
-/* ===== Tabela de eventos ===== */
-.tabelaEventos { overflow-x: auto; }
+
+/* ===== Tabela de eventos ===========================================
+   Tabela limpa, com linhas zebradas no hover e botões compactos.
+   ===================================================================== */
+
+.tabelaEventos { overflow-x: auto; } 
+/* "overflow-x: auto" permite rolagem horizontal em telas estreitas,
+   sem quebrar o layout. */
+
 .tabelaEventos table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse; /* Remove espaçamento entre células */
     font-size: .93rem;
 }
+
 .tabelaEventos th,
 .tabelaEventos td {
     padding: .65rem .7rem;
     text-align: left;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb; /* Linha separadora entre linhas */
 }
+
 .tabelaEventos thead th {
-    background: #f3f4f6;
+    background: #f3f4f6;      /* Fundo cinza claro no cabeçalho */
     font-weight: 600;
     color: #374151;
-    white-space: nowrap;
+    white-space: nowrap;      /* Evita quebra de títulos longos */
 }
-.tabelaEventos tbody tr:hover { background: #f9fafb; }
+
+.tabelaEventos tbody tr:hover { background: #f9fafb; } 
+/* Realce sutil ao passar o mouse sobre a linha */
+
 .tabelaEventos td button {
     padding: .35rem .7rem;
     border: 1px solid #d1d5db;
     background: #f9fafb;
     border-radius: 6px;
     cursor: pointer;
-    font-size: .82rem;
+    font-size: .82rem;        /* Botões menores dentro da tabela */
 }
 .tabelaEventos td button:hover { background: #e5e7eb; }
 
-/* ===== Formulários ===== */
+
+/* ===== Formulários ================================================
+   Aplica-se a login, cadastro e evento (novo/editar).
+   Layout em coluna (label acima do input) para melhor legibilidade.
+   ===================================================================== */
+
 form > div {
     margin-bottom: .85rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: column;   /* Label em cima, input embaixo */
     gap: .3rem;
 }
-form label { font-weight: 500; font-size: .92rem; color: #374151; }
+
+form label {
+    font-weight: 500;
+    font-size: .92rem;
+    color: #374151;
+}
+
 form input[type="email"],
 form input[type="password"],
 form input[type="text"] {
@@ -143,12 +218,15 @@ form input[type="text"] {
     font-size: .95rem;
     width: 100%;
     transition: border-color .15s, box-shadow .15s;
+    /* Transição suave ao focar, sem "pulo" visual */
 }
+
 form input:focus {
-    outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+    outline: none;                              /* Remove contorno padrão */
+    border-color: #2563eb;                      /* Borda azul no focus */
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);  /* Anel de foco suave */
 }
+
 form button[type="submit"] {
     padding: .6rem 1.2rem;
     border: 0;
@@ -160,27 +238,39 @@ form button[type="submit"] {
     font-size: .95rem;
 }
 form button[type="submit"]:hover:not(:disabled) { background: #1d4ed8; }
+/* ":not(:disabled)" evita mudar a cor do botão desabilitado no hover */
+
 form button[type="submit"]:disabled {
     opacity: .6;
-    cursor: not-allowed;
+    cursor: not-allowed;    /* Cursor de "proibido" */
 }
 
-/* ===== Mensagens ===== */
+
+/* ===== Mensagens de feedback =======================================
+   Div #msg usada por login, cadastro, evento e home para feedback.
+   Classes dinâmicas: msg-info, msg-sucesso, msg-erro.
+   ===================================================================== */
+
 #msg {
-    display: none;
+    display: none;              /* Oculto por padrão; o JS mostra ao usar */
     margin: 1rem auto;
     max-width: 1100px;
     padding: .75rem 1rem;
     border-radius: 8px;
     font-size: .92rem;
-    border: 1px solid transparent;
+    border: 1px solid transparent; /* Borda colorida definida nas classes */
 }
+
 .msg { display: block; }
 .msg-info    { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
 .msg-sucesso { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
 .msg-erro    { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
 
-/* ===== Footer (se houver) ===== */
+
+/* ===== Footer =====================================================
+   Rodapé discreto e centralizado.
+   ===================================================================== */
+
 footer {
     text-align: center;
     padding: 1.5rem 1rem;
@@ -188,31 +278,44 @@ footer {
     font-size: .85rem;
 }
 
-/* ===== Header ===== */
+
+/* ===== AJUSTES ESPECÍFICOS ======================================== */
+
+/* --- Header: refinamento do layout do menu --- */
+/* 
+   Observação: estes blocos SOBRESCREVEM as regras anteriores de header nav.
+   O CSS aplica a última regra declarada. Portanto, o valor final de
+   "justify-content" para header nav será "space-between", e não "center".
+   O mesmo vale para "flex" do form (0 1 300px) e para "align-items" do ul.
+   
+   Sugestão futura: consolidar todas as regras do header num único bloco
+   para evitar duplicação e confusão na leitura.
+*/
+
 header nav {
     max-width: 1100px;
     margin: 0 auto;
     padding: .75rem 1rem;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Distribui os blocos */
+    justify-content: space-between; /* Distribui os blocos (logo | busca | links) */
     gap: 1rem;
     flex-wrap: wrap;
 }
 
-/* Reduz o campo de pesquisa */
+/* Reduz o campo de pesquisa para não empurrar os links para fora */
 header nav form {
     display: flex;
     gap: .5rem;
-    flex: 0 1 300px; /* Não cresce, encolhe até 300px */
-    min-width: 150px;
+    flex: 0 1 300px;    /* Não cresce, encolhe até 300px */
+    min-width: 150px;   /* Nunca menor que 150px */
 }
 
-/* Alinha o nome do usuário na mesma altura dos links */
+/* Alinha o nome do usuário logado na mesma altura dos links */
 header nav ul {
     list-style: none;
     display: flex;
-    align-items: center; /* Centraliza verticalmente todos os itens da lista */
+    align-items: center;
     gap: .5rem;
     margin: 0;
     padding: 0;
@@ -224,28 +327,33 @@ header nav ul li {
     align-items: center;
 }
 
-/* Estilo do texto do usuário */
 header nav ul li.usuario-logado {
     padding: 0 .5rem;
-    color: #9ca3af;
+    color: #9ca3af;    /* Cinza claro para o prefixo "Olá," */
     font-size: .9rem;
-    line-height: 1.2; /* Ajuda no alinhamento */
+    line-height: 1.2;
 }
 
 header nav ul li.usuario-logado strong {
-    color: #f9fafb;
+    color: #f9fafb;    /* Branco para o nome do usuário */
     margin-left: 0.3rem;
     font-weight: 600;
 }
 
-/* Adicione ao final do arquivo */
 
-/* Botão de Concluir Evento */
+/* --- Botão de Concluir Evento --- */
+/* 
+   Dois estados visuais:
+     - Normal:    cinza claro ("OK")
+     - Concluído: verde ("CONCLUÍDO")
+   A classe "concluido" é alternada pelo JS (home.js) após o AJAX.
+*/
+
 .tabelaEventos td button.btn-concluir {
     background-color: #f3f4f6;
     color: #374151;
     border: 1px solid #d1d5db;
-    transition: all 0.2s ease;
+    transition: all 0.2s ease;    /* Suaviza a transição de estado */
 }
 
 .tabelaEventos td button.btn-concluir:hover {
@@ -254,15 +362,22 @@ header nav ul li.usuario-logado strong {
 
 /* Estado: Concluído */
 .tabelaEventos td button.btn-concluir.concluido {
-    background-color: #d1fae5;
-    color: #065f46;
-    border-color: #10b981;
+    background-color: #d1fae5;    /* Verde claro */
+    color: #065f46;               /* Verde escuro para o texto */
+    border-color: #10b981;        /* Borda verde */
     font-weight: 600;
 }
 
 .tabelaEventos td button.btn-concluir.concluido:hover {
-    background-color: #a7f3d0;
+    background-color: #a7f3d0;    /* Verde um pouco mais intenso no hover */
 }
+
+
+/* --- Select (campo de status no formulário de evento) --- */
+/* 
+   Não herdou o estilo dos inputs porque <select> é um elemento diferente.
+   Precisa de regra própria para ficar visualmente consistente.
+*/
 
 form select {
     padding: .55rem .7rem;
@@ -272,15 +387,27 @@ form select {
     width: 100%;
     background-color: #fff;
 }
+
 form select:focus {
     outline: none;
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37,99,235,.15);
 }
 
-/* ===== Responsivo ===== */
+
+/* ===== Responsivo =================================================
+   Ajustes para telas pequenas (mobile / tablets em retrato).
+   ===================================================================== */
+
 @media (max-width: 640px) {
-    header nav { flex-direction: column; align-items: stretch; }
-    header nav ul { justify-content: center; }
-    .tabelaEventos th, .tabelaEventos td { padding: .5rem; font-size: .82rem; }
+    header nav { 
+        flex-direction: column;   /* Empilha logo, busca e links */
+        align-items: stretch;     /* Ocupa toda a largura */
+    }
+    header nav ul { justify-content: center; } /* Links centralizados */
+    .tabelaEventos th, 
+    .tabelaEventos td { 
+        padding: .5rem;           /* Reduz padding em telas pequenas */
+        font-size: .82rem;        /* Fonte menor para caber mais colunas */
+    }
 }
