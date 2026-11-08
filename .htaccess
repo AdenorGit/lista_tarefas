@@ -1,0 +1,16 @@
+# Ativa o motor de reescrita de URL
+RewriteEngine On
+
+# Define a pasta base onde o site está rodando (barra significa a raiz)
+RewriteBase /
+
+# Se a requisição for para um arquivo existente, não faz nada
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Se a requisição for para uma pasta existente, não faz nada
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redireciona tudo o resto para o index.php mantendo os parâmetros ocultos
+# RewriteRule ^(.*)$ index.php [L,QSA]
+RewriteRule ^(.*)$ index.php [END,QSA]
+

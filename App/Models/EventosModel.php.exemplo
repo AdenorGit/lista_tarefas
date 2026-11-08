@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use App\Database\ConnDb;
+use PDO;
+use PDOException;
+use RuntimeException;
+
+class EventosModel
+{
+    private PDO $db;
+
+    public function __construct(?ConnDb $conn = null)
+    {
+        $conn ??= ConnDb::fromEnv();
+        $this->db = $conn->conectar();
+    }
+
+    public function carregaTodosEventos(): array
+    {
+        $sql = "SELECT eve_id, eve_titulo, eve_cidade, eve_uf,
+                    eve_endereco, eve_tel, eve_email, eve_categoria,
+                    eve_dt_evento, eve_descricao, eve_cartaz, eve_complementos,
+                    eve_ativo, eve_fk_usuario
+                FROM t_eventos
+                WHERE eve_ativo = 1
+                AND eve_dt_evento >= CURDATE()
+                ORDER BY eve_dt_evento ASC";
+
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+
+        } catch (PDOException $e) {
+            error_log('[EventosModel]' . $e->getMessage());
+            throw new RuntimeException('Falha ao carregar eventos', previous: $e);
+        }
+    }
+}

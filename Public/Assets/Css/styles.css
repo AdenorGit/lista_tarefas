@@ -1,0 +1,286 @@
+/* ===== Reset básico ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: #f4f6f8;
+    color: #1f2937;
+    min-height: 100vh;
+    line-height: 1.5;
+}
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ===== Header ===== */
+header {
+    background: #1f2937;
+    color: #f9fafb;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+header nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: .75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+header nav a h3 {
+    margin: 0;
+    color: #f9fafb;
+    font-size: 1.1rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+header nav form {
+    display: flex;
+    gap: .5rem;
+    flex: 1 1 220px;
+    min-width: 0;
+}
+header nav form input[type="search"] {
+    flex: 1;
+    padding: .45rem .7rem;
+    border-radius: 6px;
+    border: 1px solid #374151;
+    background: #111827;
+    color: #f9fafb;
+}
+header nav form input[type="search"]::placeholder { color: #9ca3af; }
+header nav form button {
+    padding: .45rem .9rem;
+    border: 0;
+    border-radius: 6px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+}
+header nav form button:hover { background: #1d4ed8; }
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: .5rem;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+}
+header nav ul li a {
+    display: inline-block;
+    padding: .45rem .8rem;
+    border-radius: 6px;
+    color: #e5e7eb;
+    font-size: .92rem;
+}
+header nav ul li a:hover {
+    background: #374151;
+    text-decoration: none;
+}
+
+/* ===== Conteúdo principal ===== */
+main {
+    max-width: 1100px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+}
+#divPrincipal {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    padding: 1.25rem;
+}
+#divPrincipal h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+/* ===== Tabela de eventos ===== */
+.tabelaEventos { overflow-x: auto; }
+.tabelaEventos table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .93rem;
+}
+.tabelaEventos th,
+.tabelaEventos td {
+    padding: .65rem .7rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+.tabelaEventos thead th {
+    background: #f3f4f6;
+    font-weight: 600;
+    color: #374151;
+    white-space: nowrap;
+}
+.tabelaEventos tbody tr:hover { background: #f9fafb; }
+.tabelaEventos td button {
+    padding: .35rem .7rem;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: .82rem;
+}
+.tabelaEventos td button:hover { background: #e5e7eb; }
+
+/* ===== Formulários ===== */
+form > div {
+    margin-bottom: .85rem;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+}
+form label { font-weight: 500; font-size: .92rem; color: #374151; }
+form input[type="email"],
+form input[type="password"],
+form input[type="text"] {
+    padding: .55rem .7rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: .95rem;
+    width: 100%;
+    transition: border-color .15s, box-shadow .15s;
+}
+form input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+}
+form button[type="submit"] {
+    padding: .6rem 1.2rem;
+    border: 0;
+    border-radius: 6px;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: .95rem;
+}
+form button[type="submit"]:hover:not(:disabled) { background: #1d4ed8; }
+form button[type="submit"]:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+/* ===== Mensagens ===== */
+#msg {
+    display: none;
+    margin: 1rem auto;
+    max-width: 1100px;
+    padding: .75rem 1rem;
+    border-radius: 8px;
+    font-size: .92rem;
+    border: 1px solid transparent;
+}
+.msg { display: block; }
+.msg-info    { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+.msg-sucesso { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
+.msg-erro    { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+
+/* ===== Footer (se houver) ===== */
+footer {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    color: #6b7280;
+    font-size: .85rem;
+}
+
+/* ===== Header ===== */
+header nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: .75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distribui os blocos */
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Reduz o campo de pesquisa */
+header nav form {
+    display: flex;
+    gap: .5rem;
+    flex: 0 1 300px; /* Não cresce, encolhe até 300px */
+    min-width: 150px;
+}
+
+/* Alinha o nome do usuário na mesma altura dos links */
+header nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center; /* Centraliza verticalmente todos os itens da lista */
+    gap: .5rem;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+header nav ul li {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilo do texto do usuário */
+header nav ul li.usuario-logado {
+    padding: 0 .5rem;
+    color: #9ca3af;
+    font-size: .9rem;
+    line-height: 1.2; /* Ajuda no alinhamento */
+}
+
+header nav ul li.usuario-logado strong {
+    color: #f9fafb;
+    margin-left: 0.3rem;
+    font-weight: 600;
+}
+
+/* Adicione ao final do arquivo */
+
+/* Botão de Concluir Evento */
+.tabelaEventos td button.btn-concluir {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    transition: all 0.2s ease;
+}
+
+.tabelaEventos td button.btn-concluir:hover {
+    background-color: #e5e7eb;
+}
+
+/* Estado: Concluído */
+.tabelaEventos td button.btn-concluir.concluido {
+    background-color: #d1fae5;
+    color: #065f46;
+    border-color: #10b981;
+    font-weight: 600;
+}
+
+.tabelaEventos td button.btn-concluir.concluido:hover {
+    background-color: #a7f3d0;
+}
+
+form select {
+    padding: .55rem .7rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: .95rem;
+    width: 100%;
+    background-color: #fff;
+}
+form select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 640px) {
+    header nav { flex-direction: column; align-items: stretch; }
+    header nav ul { justify-content: center; }
+    .tabelaEventos th, .tabelaEventos td { padding: .5rem; font-size: .82rem; }
+}
